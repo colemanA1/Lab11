@@ -74,12 +74,22 @@ public class Main {
 
     //Method replaces a car in a certain position
     public static void replaceCar() {
+
+        String isUsed = Validator.getString(scan, "Is replacement car used? (y/n)");
+        if (isUsed.equalsIgnoreCase("y")) {
+            String make = Validator.getString(scan, "Enter make: ");
+            String model = Validator.getString(scan, "Enter model: ");
+            int year = Validator.getInt(scan, "Enter year: ");
+            double price = Validator.getInt(scan, "Enter price: ");
+            int mileage = Validator.getInt(scan, "Enter mileage: ");
+            CarLot.carList.add(new UsedCar(make, model, year, price, "Used", mileage));
+        }else{
         String make = Validator.getString(scan, "Enter make: ");
         String model = Validator.getString(scan, "Enter model: ");
         int year = Validator.getInt(scan, "Enter year: ");
         double price = Validator.getInt(scan, "Enter price: ");
-        int mileage = Validator.getInt(scan, "Enter mileage: ");
-
+        CarLot.carList.add(new Car(make, model, year, price));
+        }
     }
 
     //Method searches for cars based on categories
@@ -133,7 +143,7 @@ public class Main {
                     do {
                         CarLot.carList();
                         int userPicks = Validator.getInt(scan, "Select a car from the list to view: ", 1, CarLot.carList.size());
-                        System.out.println(CarLot.carList.get(userPicks -1));
+                        System.out.println(CarLot.carList.get(userPicks - 1));
 
                     } while (userLookMoreCars().equalsIgnoreCase("y"));
                     menuChoice = 0;
@@ -143,10 +153,9 @@ public class Main {
                 case 5:
                     CarLot.carList();
                     int carSwap = Validator.getInt(scan, "Enter number of car you want to swap out: ");
+                    CarLot.carList.remove(carSwap - 1);
                     replaceCar();
-                    System.out.println(CarLot.carList.indexOf(carSwap ));
-                    //TODO Code car switch
-
+                    CarLot.carList();
                     returnToMenu();
                     menuChoice = 0;
                     break;
@@ -157,7 +166,7 @@ public class Main {
                 default:
                     break;
             }
-        } while (menuChoice != 7);
+        } while (menuChoice != 6);
 
 
     }
